@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 * {
   margin: 0;
@@ -8,7 +8,7 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background: #f8f8f8;
   color: #222;
   line-height: 1.7;
@@ -56,8 +56,9 @@ body {
 
 .hero {
   height: 100vh;
-  background: linear-gradient(rgba(0, 40, 20, 0.7), rgba(0, 0, 0, 0.7)),
-    url('./images/hero.png') no-repeat;
+  background:
+    linear-gradient(rgba(0, 40, 20, 0.7), rgba(0, 0, 0, 0.7)),
+    url("images/hero.png") no-repeat;
   background-position: center;
   background-size: cover;
   display: flex;
@@ -484,4 +485,28 @@ copyright {
   .img4 {
     right: 40px;
   }
+}
+
+/* PARTNERSHIP SECTION */
+
+.partnership-section {
+  background: linear-gradient(135deg, #0d5c3f, #081c15);
+  color: #fff;
+  text-align: center;
+}
+
+.partnership-content {
+  max-width: 800px;
+  margin: 0px auto;
+  padding: 0px;
+}
+
+.partnership-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.partnership-content p {
+  margin-bottom: 30px;
+  font-size: 1.05rem;
 }
