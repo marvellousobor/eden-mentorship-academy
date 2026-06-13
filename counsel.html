@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Counselling Services - Eden Mentorship Academy</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <!-- Custom CSS -->
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom gradient colors */
+        .gradient-eden {
+            background: linear-gradient(to right, #0d5c3f, #d4af37);
+        }
+
+        .gradient-eden-dark {
+            background: linear-gradient(135deg, #0d5c3f, #081c15);
+        }
+
+        /* Hero section background */
+        .hero-bg-counselling {
+            background-image: linear-gradient(rgba(0, 40, 20, 0.7), rgba(0, 0, 0, 0.7)), url("images/counselling-hero.jpg");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        /* Header blur effect */
+        .header-blur {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .transition-hover {
+            transition: all 0.3s ease;
+        }
+
+        /* Service cards hover */
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* WhatsApp Modal */
+        .whatsapp-modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .whatsapp-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .whatsapp-modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .whatsapp-modal-content h3 {
+            color: #0d5c3f;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .whatsapp-modal-content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .whatsapp-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .whatsapp-form-group label {
+            display: block;
+            color: #0d5c3f;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .whatsapp-form-group input,
+        .whatsapp-form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .whatsapp-form-group input:focus,
+        .whatsapp-form-group textarea:focus {
+            outline: none;
+            border-color: #0d5c3f;
+            box-shadow: 0 0 0 3px rgba(13, 92, 63, 0.1);
+        }
+
+        .whatsapp-message-preview {
+            background: #f0f0f0;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #d4af37;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .whatsapp-message-preview p {
+            margin: 0;
+            color: #333;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .whatsapp-modal-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .whatsapp-modal-buttons button {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .whatsapp-send-btn {
+            background: #25D366;
+            color: white;
+        }
+
+        .whatsapp-send-btn:hover {
+            background: #20ba5a;
+            transform: translateY(-2px);
+        }
+
+        .whatsapp-cancel-btn {
+            background: #ddd;
+            color: #333;
+        }
+
+        .whatsapp-cancel-btn:hover {
+            background: #ccc;
+        }
+
+        .close-whatsapp {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #999;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-whatsapp:hover {
+            color: #0d5c3f;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-gray-800 bg-gray-100">
+
+    <!-- HEADER -->
+    <header class="header-blur fixed top-0 left-0 w-full z-50 flex justify-between items-center px-[8%] py-5">
+        <a href="index.html" class="text-white text-xl font-bold hover:text-yellow-500 transition-hover">Eden Mentorship
+            Academy</a>
+
+        <nav class="navbar hidden lg:flex gap-6">
+            <a href="index.html#vision" class="text-white text-sm transition-hover hover:text-yellow-500">Vision</a>
+            <a href="index.html#programs" class="text-white text-sm transition-hover hover:text-yellow-500">Programs</a>
+            <a href="index.html#testimonials"
+                class="text-white text-sm transition-hover hover:text-yellow-500">Testimonials</a>
+            <a href="counselling.html"
+                class="text-yellow-400 text-sm transition-hover hover:text-white font-semibold">Counselling</a>
+            <a href="index.html#founder" class="text-white text-sm transition-hover hover:text-yellow-500">Founder</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section
+        class="hero-bg-counselling h-screen w-full flex items-center justify-center text-center px-[8%] relative pt-20">
+        <div class="hero-content max-w-3xl text-white z-10">
+            <div class="mb-6">
+                <span class="inline-block px-6 py-3 bg-yellow-400 text-teal-900 font-bold rounded-full mb-6">
+                    <i class="fa-solid fa-heart mr-2"></i>Counselling Services
+                </span>
+            </div>
+
+            <h1 class="text-5xl md:text-6xl font-bold mb-5 leading-tight">You Don't Have to Walk Alone</h1>
+
+            <p class="text-lg md:text-xl mb-9 leading-relaxed">
+                We understand that life can be tough. During such moments, you need a shoulder you can lean on, and a
+                safe haven where you can find solace and motivation to get going.
+            </p>
+
+            <div class="hero-buttons flex justify-center flex-wrap gap-4">
+                <a href="javascript:void(0)" onclick="openCounsellingModal()"
+                    class="px-7 py-3 rounded-full font-semibold gradient-eden text-white transition-hover hover:translate-y-[-3px] inline-block">
+                    <i class="fa-solid fa-heart mr-2"></i>Get Counselling Support
+                </a>
+
+                <a href="#areas"
+                    class="px-7 py-3 rounded-full font-semibold bg-white text-teal-900 transition-hover hover:bg-yellow-500 hover:text-white inline-block">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT COUNSELLING -->
+    <section class="py-24 px-[8%]">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-teal-900 mb-6">Why Counselling Matters</h2>
+                <div class="w-20 h-1 bg-gradient-eden mx-auto mb-8"></div>
+            </div>
+
+            <div class="bg-white p-12 rounded-3xl shadow-lg">
+                <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                    We understand that life can be tough. During such moments, you need a shoulder you can lean on, and
+                    a safe haven where you can find solace and motivation to get going.
+                </p>
+
+                <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                    Whether you're going through addiction, abuse, trauma, identity confusion, or indecisiveness, the
+                    Eden Academy Counselling Unit is here for you.
+                </p>
+
+                <p class="text-xl font-bold text-teal-900 mb-6">
+                    <i class="fa-solid fa-shield-heart text-yellow-500 mr-2"></i>
+                    Do not go through life alone when there's a haven you can find safety and direction.
+                </p>
+
+                <div class="bg-gradient-to-r from-teal-50 to-yellow-50 p-8 rounded-2xl border-l-4 border-yellow-500">
+                    <p class="text-2xl font-bold text-teal-900 mb-2">
+                        <i class="fa-solid fa-gift text-yellow-500 mr-2"></i>Counselling is FREE
+                    </p>
+                    <p class="text-gray-700">
+                        We believe everyone deserves access to quality counselling support without financial barriers.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AREAS WE HELP WITH -->
+    <section class="py-24 px-[8%] bg-gray-50" id="areas">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-teal-900 mb-6">Areas We Help With</h2>
+            <p class="max-w-2xl mx-auto text-gray-600">
+                Our compassionate counsellors are trained to help you navigate through various life challenges
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- Addiction Support -->
+            <div class="service-card bg-white p-8 rounded-3xl shadow-lg transition-hover">
+                <div class="w-16 h-16 bg-gradient-eden rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <i class="fa-solid fa-hand-fist text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-teal-900 mb-4 text-center">Addiction Support</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Struggling with substance abuse or behavioral addictions? We provide compassionate support to help
+                    you break free and reclaim your life.
+                </p>
+            </div>
+
+            <!-- Abuse & Trauma -->
+            <div class="service-card bg-white p-8 rounded-3xl shadow-lg transition-hover">
+                <div class="w-16 h-16 bg-gradient-eden rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <i class="fa-solid fa-heart-crack text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-teal-900 mb-4 text-center">Abuse & Trauma</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    If you've experienced physical, emotional, or sexual abuse, we're here to help you heal and rebuild
+                    your confidence.
+                </p>
+            </div>
+
+            <!-- Identity Confusion -->
+            <div class="service-card bg-white p-8 rounded-3xl shadow-lg transition-hover">
+                <div class="w-16 h-16 bg-gradient-eden rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <i class="fa-solid fa-person-rays text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-teal-900 mb-4 text-center">Identity Confusion</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Struggling with who you are or where you fit in? Our counsellors help you discover and embrace your
+                    true identity.
+                </p>
+            </div>
+
+            <!-- Indecisiveness -->
+            <div class="service-card bg-white p-8 rounded-3xl shadow-lg transition-hover">
+                <div class="w-16 h-16 bg-gradient-eden rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <i class="fa-solid fa-compass text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-teal-900 mb-4 text-center">Indecisiveness</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Can't make important life decisions? We help you clarify your thoughts, values, and goals to move
+                    forward confidently.
+                </p>
+            </div>
+
+            <!-- Relationship Issues -->
+            <div class="service-card bg-white p-8 rounded-3xl shadow-lg transition-hover">
+                <div class="w-16 h-16 bg-gradient-eden rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <i class="fa-solid fa-people-group text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-teal-900 mb-4 text-center">Relationship Issues</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Having difficulty with family, friends, or romantic relationships? We help you build healthier
+                    connections.
+                </p>
+            </div>
+
+            <!-- Mental Health & Wellness -->
+            <div class="service-card bg-white p-8 rounded-3xl shadow-lg transition-hover">
+                <div class="w-16 h-16 bg-gradient-eden rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <i class="fa-solid fa-brain text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-teal-900 mb-4 text-center">Mental Health & Wellness</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Dealing with anxiety, depression, or stress? Our counsellors provide strategies for mental wellness
+                    and emotional balance.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="py-24 px-[8%]">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-teal-900 mb-6">Why Choose Eden Counselling?</h2>
+                <div class="w-20 h-1 bg-gradient-eden mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="flex gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-full gradient-eden">
+                            <i class="fa-solid fa-lock text-white text-xl"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-teal-900 mb-2">Confidential & Safe</h3>
+                        <p class="text-gray-700">
+                            Your privacy is sacred. Everything shared in counselling is kept strictly confidential.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-full gradient-eden">
+                            <i class="fa-solid fa-check text-white text-xl"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-teal-900 mb-2">Trained Professionals</h3>
+                        <p class="text-gray-700">
+                            Our counsellors are experienced, compassionate, and committed to your wellbeing.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-full gradient-eden">
+                            <i class="fa-solid fa-gift text-white text-xl"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-teal-900 mb-2">Completely Free</h3>
+                        <p class="text-gray-700">
+                            No hidden charges. Quality counselling support available to everyone at no cost.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-full gradient-eden">
+                            <i class="fa-solid fa-heart text-white text-xl"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-teal-900 mb-2">Non-Judgmental Space</h3>
+                        <p class="text-gray-700">
+                            You'll be heard, understood, and accepted without judgment or criticism.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="py-24 px-[8%] gradient-eden text-white text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to Take the First Step?</h2>
+            <p class="text-lg mb-8 leading-relaxed">
+                Reaching out is a sign of strength, not weakness. Let's work together to help you find clarity, peace,
+                and direction.
+            </p>
+
+            <div class="flex justify-center flex-wrap gap-4">
+                <a href="javascript:void(0)" onclick="openCounsellingModal()"
+                    class="px-8 py-4 rounded-full font-semibold bg-white text-teal-900 transition-hover hover:translate-y-[-3px] inline-block">
+                    <i class="fa-brands fa-whatsapp mr-2"></i>Send Message Now
+                </a>
+
+                <a href="mailto:edenmentorshipacademy@gmail.com"
+                    class="px-8 py-4 rounded-full font-semibold border-2 border-white text-white transition-hover hover:bg-white hover:text-teal-900 inline-block">
+                    <i class="fa-solid fa-envelope mr-2"></i>Send Email
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT INFO -->
+    <section class="py-24 px-[8%] bg-gray-50">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold text-teal-900 mb-6">Get in Touch</h2>
+            <p class="text-gray-600 mb-12">
+                Reach out to us through any of these channels. We're here to listen and support you.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Email -->
+                <div class="bg-white p-8 rounded-3xl shadow-lg">
+                    <div class="w-16 h-16 bg-gradient-eden rounded-full flex items-center justify-center mb-6 mx-auto">
+                        <i class="fa-solid fa-envelope text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-teal-900 mb-3">Email</h3>
+                    <a href="mailto:edenmentorshipacademy@gmail.com"
+                        class="text-teal-900 font-semibold hover:text-yellow-500 transition-hover">
+                        edenmentorshipacademy@gmail.com
+                    </a>
+                </div>
+
+                <!-- Phone -->
+                <div class="bg-white p-8 rounded-3xl shadow-lg">
+                    <div class="w-16 h-16 bg-gradient-eden rounded-full flex items-center justify-center mb-6 mx-auto">
+                        <i class="fa-solid fa-phone text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-teal-900 mb-3">Phone</h3>
+                    <a href="tel:+2349131274099"
+                        class="text-teal-900 font-semibold hover:text-yellow-500 transition-hover">
+                        +234 913 127 4099
+                    </a>
+                </div>
+
+                <!-- WhatsApp -->
+                <div class="bg-white p-8 rounded-3xl shadow-lg">
+                    <div class="w-16 h-16 bg-gradient-eden rounded-full flex items-center justify-center mb-6 mx-auto">
+                        <i class="fa-brands fa-whatsapp text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-teal-900 mb-3">WhatsApp</h3>
+                    <button onclick="openCounsellingModal()"
+                        class="text-teal-900 font-semibold hover:text-yellow-500 transition-hover">
+                        Send Message
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-teal-950 text-white text-center py-16 px-[8%]">
+        <h3 class="text-2xl font-bold mb-4">Eden Mentorship Academy</h3>
+
+        <p class="mb-6 text-gray-300">
+            Raising leaders, building purpose, and creating impact through mentorship and community.
+        </p>
+
+        <div class="flex justify-center gap-5 mb-8">
+            <a href="https://wa.me/2349131274099"
+                class="w-12 h-12 rounded-full bg-teal-900 text-white flex items-center justify-center transition-hover hover:bg-yellow-500">
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+            </a>
+
+            <a href="https://web.facebook.com/eric.master.3762"
+                class="w-12 h-12 rounded-full bg-teal-900 text-white flex items-center justify-center transition-hover hover:bg-yellow-500">
+                <i class="fa-brands fa-facebook-f text-lg"></i>
+            </a>
+
+            <a href="https://t.me/+mguvDpmrM4g0OTY0"
+                class="w-12 h-12 rounded-full bg-teal-900 text-white flex items-center justify-center transition-hover hover:bg-yellow-500">
+                <i class="fa-brands fa-telegram text-lg"></i>
+            </a>
+        </div>
+
+        <p class="text-gray-400">
+            © 2026 Eden Mentorship Academy. All Rights Reserved.
+        </p>
+    </footer>
+
+    <!-- COUNSELLING WHATSAPP MODAL -->
+    <div id="counsellingModal" class="whatsapp-modal" onclick="if(event.target === this) closeCounsellingModal()">
+        <div class="whatsapp-modal-content">
+            <span class="close-whatsapp" onclick="closeCounsellingModal()">&times;</span>
+
+            <h3>
+                <i class="fa-solid fa-heart text-red-500 mr-2"></i>Book Your Counselling Session
+            </h3>
+
+            <p>Share a bit about what you're going through so we can help you better.</p>
+
+            <div class="whatsapp-form-group">
+                <label for="counsellingName">Your Full Name *</label>
+                <input type="text" id="counsellingName" placeholder="Enter your full name"
+                    onkeyup="updateCounsellingPreview()" required>
+            </div>
+
+            <div class="whatsapp-form-group">
+                <label for="counsellingIssue">What's on your mind? *</label>
+                <textarea id="counsellingIssue" placeholder="Tell us briefly what you're struggling with..." rows="4"
+                    onkeyup="updateCounsellingPreview()" required></textarea>
+            </div>
+
+            <div class="whatsapp-message-preview">
+                <p id="counsellingPreview">Hello Coach Emmanuel,
+
+                    My name is [Your name will appear here]
+
+                    I would like to book a counselling session. [Your message will appear here]
+
+                    Please help me.</p>
+            </div>
+
+            <div class="whatsapp-modal-buttons">
+                <button class="whatsapp-send-btn" onclick="sendCounsellingMessage()">
+                    <i class="fa-brands fa-whatsapp mr-2"></i>Send on WhatsApp
+                </button>
+                <button class="whatsapp-cancel-btn" onclick="closeCounsellingModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // COUNSELLING MODAL FUNCTIONS
+        function openCounsellingModal() {
+            const modal = document.getElementById('counsellingModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('counsellingName').focus();
+        }
+
+        function closeCounsellingModal() {
+            const modal = document.getElementById('counsellingModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.getElementById('counsellingName').value = '';
+            document.getElementById('counsellingIssue').value = '';
+            updateCounsellingPreview();
+        }
+
+        function updateCounsellingPreview() {
+            const nameInput = document.getElementById('counsellingName');
+            const issueInput = document.getElementById('counsellingIssue');
+            const preview = document.getElementById('counsellingPreview');
+
+            const name = nameInput.value || '[Your name will appear here]';
+            const issue = issueInput.value || '[Your message will appear here]';
+
+            preview.textContent = `Hello Coach Emmanuel,
+
+My name is ${name}
+
+I would like to book a counselling session. ${issue}
+
+Please help me.`;
+        }
+
+        function sendCounsellingMessage() {
+            const nameInput = document.getElementById('counsellingName');
+            const issueInput = document.getElementById('counsellingIssue');
+            const name = nameInput.value.trim();
+            const issue = issueInput.value.trim();
+
+            // Validate inputs
+            if (name === '') {
+                alert('Please enter your name');
+                nameInput.focus();
+                return;
+            }
+
+            if (issue === '') {
+                alert('Please tell us what you need help with');
+                issueInput.focus();
+                return;
+            }
+
+            // Coach Emmanuel's WhatsApp number
+            const phoneNumber = '2349131274099';
+
+            // Create the message
+            const message = `Hello Coach Emmanuel,
+
+My name is ${name}
+
+I would like to book a counselling session. ${issue}
+
+Please help me.`;
+
+            // Encode the message for URL
+            const encodedMessage = encodeURIComponent(message);
+
+            // Create WhatsApp link
+            const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+            // Open WhatsApp
+            window.open(whatsappLink, '_blank');
+
+            // Close modal
+            closeCounsellingModal();
+        }
+
+        // Allow sending with Enter key
+        document.addEventListener('DOMContentLoaded', function () {
+            const nameInput = document.getElementById('counsellingName');
+            if (nameInput) {
+                nameInput.addEventListener('keypress', function (event) {
+                    if (event.key === 'Enter') {
+                        document.getElementById('counsellingIssue').focus();
+                    }
+                });
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('counsellingModal');
+                if (modal.classList.contains('active')) {
+                    closeCounsellingModal();
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
