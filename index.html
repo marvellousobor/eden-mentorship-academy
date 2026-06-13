@@ -6,49 +6,346 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eden Mentorship Academy</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <!-- Custom CSS for specific styles -->
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom gradient colors */
+        .gradient-eden {
+            background: linear-gradient(to right, #0d5c3f, #d4af37);
+        }
+
+        .gradient-eden-dark {
+            background: linear-gradient(135deg, #0d5c3f, #081c15);
+        }
+
+        .gradient-dark-overlay {
+            background: linear-gradient(rgba(0, 40, 20, 0.7), rgba(0, 0, 0, 0.7));
+        }
+
+        /* Hero section background */
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 40, 20, 0.7), rgba(0, 0, 0, 0.7)), url("images/hero.png");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        /* Header blur effect */
+        .header-blur {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #d4af37;
+            transform: scale(1.2);
+        }
+
+        /* Gallery image hover effect */
+        .gallery-img {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        /* Vision card hover */
+        .vision-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Program card hover */
+        .program-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .transition-hover {
+            transition: all 0.3s ease;
+        }
+
+        /* Button hover effects */
+        .primary-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .outline-btn:hover {
+            background: #fff;
+            color: #0d5c3f;
+        }
+
+        .social-icons a:hover {
+            background: #d4af37;
+            transform: translateY(-5px);
+        }
+
+        /* Book section styling */
+        .book-image-container {
+            perspective: 1000px;
+        }
+
+        .book-image-container img {
+            transition: transform 0.3s ease;
+        }
+
+        .book-image-container:hover img {
+            transform: translateY(-10px);
+        }
+
+        /* WhatsApp Modal */
+        .whatsapp-modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .whatsapp-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .whatsapp-modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            position: relative;
+        }
+
+        .whatsapp-modal-content h3 {
+            color: #0d5c3f;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .whatsapp-modal-content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .whatsapp-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .whatsapp-form-group label {
+            display: block;
+            color: #0d5c3f;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .whatsapp-form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .whatsapp-form-group input:focus {
+            outline: none;
+            border-color: #0d5c3f;
+            box-shadow: 0 0 0 3px rgba(13, 92, 63, 0.1);
+        }
+
+        .whatsapp-message-preview {
+            background: #f0f0f0;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #d4af37;
+        }
+
+        .whatsapp-message-preview p {
+            margin: 0;
+            color: #333;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .whatsapp-modal-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .whatsapp-modal-buttons button {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .whatsapp-send-btn {
+            background: #25D366;
+            color: white;
+        }
+
+        .whatsapp-send-btn:hover {
+            background: #20ba5a;
+            transform: translateY(-2px);
+        }
+
+        .whatsapp-cancel-btn {
+            background: #ddd;
+            color: #333;
+        }
+
+        .whatsapp-cancel-btn:hover {
+            background: #ccc;
+        }
+
+        .close-whatsapp {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #999;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-whatsapp:hover {
+            color: #0d5c3f;
+        }
+    </style>
 </head>
 
-<body>
+<body class="font-sans text-gray-800 bg-gray-100">
 
     <!-- HEADER -->
-    <header class="header">
-        <div class="logo">Eden Mentorship Academy</div>
+    <header class="header-blur fixed top-0 left-0 w-full z-50 flex justify-between items-center px-[8%] py-5">
+        <div class="text-white text-xl font-bold">Eden Mentorship Academy</div>
 
-        <nav class="navbar">
-            <a href="#vision">Vision</a>
-            <a href="#programs">Programs</a>
-            <a href="#testimonials">Testimonials</a>
-            <a href="#community">Community</a>
-            <a href="#founder">Founder</a>
+        <nav class="navbar hidden lg:flex gap-6">
+            <a href="#vision" class="text-white text-sm transition-hover hover:text-yellow-500">Vision</a>
+            <a href="#programs" class="text-white text-sm transition-hover hover:text-yellow-500">Programs</a>
+            <a href="#testimonials" class="text-white text-sm transition-hover hover:text-yellow-500">Testimonials</a>
+            <a href="#community" class="text-white text-sm transition-hover hover:text-yellow-500">Community</a>
+            <a href="#founder" class="text-white text-sm transition-hover hover:text-yellow-500">Founder</a>
         </nav>
     </header>
 
     <!-- HERO SECTION -->
-    <section class="hero">
-        <div class="hero-overlay"></div>
+    <section class="hero-bg h-screen w-full flex items-center justify-center text-center px-[8%] relative pt-20">
+        <div class="hero-content max-w-3xl text-white z-10">
+            <h1 class="text-5xl md:text-6xl font-bold mb-5 leading-tight">Raise Leaders. Build Purpose. Create Impact.
+            </h1>
 
-        <div class="hero-content">
-            <h1>Raise Leaders. Build Purpose. Create Impact.</h1>
-
-            <p>
+            <p class="text-lg md:text-xl mb-9 leading-relaxed">
                 Eden Mentorship Academy is a transformational community helping
                 teenagers and young people grow in leadership, discipline,
                 spirituality, creativity, and purpose.
             </p>
 
-            <div class="hero-buttons">
-                <a href="#" class="btn primary-btn">Join Eden</a>
+            <div class="hero-buttons flex justify-center flex-wrap gap-4">
+                <a href="https://t.me/+mguvDpmrM4g0OTY0"
+                    class="px-7 py-3 rounded-full font-semibold gradient-eden text-white transition-hover hover:translate-y-[-3px] inline-block">Join
+                    Eden</a>
 
-                <a href="#programs" class="btn secondary-btn">
+                <a href="#programs"
+                    class="px-7 py-3 rounded-full font-semibold bg-white text-teal-900 transition-hover hover:bg-yellow-500 hover:text-white inline-block">
                     Explore Programs
                 </a>
 
-                <a href="#" class="btn outline-btn">
+                <!-- NEW CODE -->
+                <a href="javascript:void(0)" onclick="openWhatsAppModal()"
+                    class="px-7 py-3 rounded-full font-semibold border-2 border-white text-white transition-hover hover:bg-white hover:text-teal-900 inline-block">
                     Become a Member
                 </a>
             </div>
@@ -56,139 +353,147 @@
     </section>
 
     <!-- VISION SECTION -->
-    <section class="vision-section" id="vision">
-
-        <div class="section-title">
-            <h2>Our Vision & Mission</h2>
-            <p>
+    <section class="py-24 px-[8%]" id="vision">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-teal-900 mb-4">Our Vision & Mission</h2>
+            <p class="max-w-2xl mx-auto text-gray-600">
                 At Eden, we believe transformation happens through mentorship,
                 accountability, community, discipline, and intentional growth.
             </p>
         </div>
 
-        <div class="vision-grid">
-
-            <div class="vision-card">
-                <i class="fa-solid fa-crown"></i>
-                <h3>Leadership</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+            <div class="vision-card bg-white p-9 rounded-3xl text-center shadow-lg transition-hover">
+                <i class="fa-solid fa-crown text-3xl text-yellow-500 mb-4 block"></i>
+                <h3 class="text-xl font-semibold text-gray-900">Leadership</h3>
             </div>
 
-            <div class="vision-card">
-                <i class="fa-solid fa-people-group"></i>
-                <h3>Mentorship</h3>
+            <div class="vision-card bg-white p-9 rounded-3xl text-center shadow-lg transition-hover">
+                <i class="fa-solid fa-people-group text-3xl text-yellow-500 mb-4 block"></i>
+                <h3 class="text-xl font-semibold text-gray-900">Mentorship</h3>
             </div>
 
-            <div class="vision-card">
-                <i class="fa-solid fa-book-bible"></i>
-                <h3>Spiritual Growth</h3>
+            <div class="vision-card bg-white p-9 rounded-3xl text-center shadow-lg transition-hover">
+                <i class="fa-solid fa-book-bible text-3xl text-yellow-500 mb-4 block"></i>
+                <h3 class="text-xl font-semibold text-gray-900">Spiritual Growth</h3>
             </div>
 
-            <div class="vision-card">
-                <i class="fa-solid fa-lightbulb"></i>
-                <h3>Creativity</h3>
+            <div class="vision-card bg-white p-9 rounded-3xl text-center shadow-lg transition-hover">
+                <i class="fa-solid fa-lightbulb text-3xl text-yellow-500 mb-4 block"></i>
+                <h3 class="text-xl font-semibold text-gray-900">Creativity</h3>
             </div>
 
-            <div class="vision-card">
-                <i class="fa-solid fa-shield-heart"></i>
-                <h3>Discipline</h3>
+            <div class="vision-card bg-white p-9 rounded-3xl text-center shadow-lg transition-hover">
+                <i class="fa-solid fa-shield-heart text-3xl text-yellow-500 mb-4 block"></i>
+                <h3 class="text-xl font-semibold text-gray-900">Discipline</h3>
             </div>
 
-            <div class="vision-card">
-                <i class="fa-solid fa-users"></i>
-                <h3>Community</h3>
+            <div class="vision-card bg-white p-9 rounded-3xl text-center shadow-lg transition-hover">
+                <i class="fa-solid fa-users text-3xl text-yellow-500 mb-4 block"></i>
+                <h3 class="text-xl font-semibold text-gray-900">Community</h3>
             </div>
 
-            <div class="vision-card">
-                <i class="fa-solid fa-compass"></i>
-                <h3>Purpose Discovery</h3>
+            <div class="vision-card bg-white p-9 rounded-3xl text-center shadow-lg transition-hover">
+                <i class="fa-solid fa-compass text-3xl text-yellow-500 mb-4 block"></i>
+                <h3 class="text-xl font-semibold text-gray-900">Purpose Discovery</h3>
             </div>
-
         </div>
 
-        <div class="teen-gallery">
-
+        <div class="teen-gallery grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mt-20">
             <div class="teen-gallery-text">
-                <h3>Raising Innovative Young Leaders</h3>
+                <h3 class="text-3xl font-bold text-teal-900 mb-5">Raising Innovative Young Leaders</h3>
 
-                <p>
+                <p class="text-gray-700 leading-relaxed">
                     Eden Mentorship Academy is building a generation of disciplined,
                     purpose-driven, spiritually grounded, and innovative young people
                     prepared to create impact in their communities and beyond.
                 </p>
             </div>
 
-            <div class="floating-images">
+            <!-- Image Gallery Grid -->
+            <div class="gallery-grid">
+                <div class="grid grid-cols-2 gap-6">
+                    <!-- Image 1 -->
+                    <div class="overflow-hidden rounded-3xl shadow-2xl">
+                        <img src="./images/teen1.jpg" class="gallery-img w-full h-80 object-cover rounded-3xl"
+                            alt="Teen 1" onclick="openModal(this.src)">
+                    </div>
 
-                <img src="./images/teen1.jpg" class="float-img img1" alt="Teenager">
-                <img src="./images/teen2.jpg" class="float-img img2" alt="Teenager">
-                <img src="./images/teen3.jpg" class="float-img img3" alt="Teenager">
-                <img src="./images/teen4.jpg" class="float-img img4" alt="Teenager">
+                    <!-- Image 2 -->
+                    <div class="overflow-hidden rounded-3xl shadow-2xl">
+                        <img src="./images/teen2.jpg" class="gallery-img w-full h-80 object-cover rounded-3xl"
+                            alt="Teen 2" onclick="openModal(this.src)">
+                    </div>
 
+                    <!-- Image 3 -->
+                    <div class="overflow-hidden rounded-3xl shadow-2xl">
+                        <img src="./images/teen3.jpg" class="gallery-img w-full h-80 object-cover rounded-3xl"
+                            alt="Teen 3" onclick="openModal(this.src)">
+                    </div>
+
+                    <!-- Image 4 -->
+                    <div class="overflow-hidden rounded-3xl shadow-2xl">
+                        <img src="./images/teen4.jpg" class="gallery-img w-full h-80 object-cover rounded-3xl"
+                            alt="Teen 4" onclick="openModal(this.src)">
+                    </div>
+                </div>
             </div>
-
         </div>
-
     </section>
 
     <!-- PROGRAMS -->
-    <section class="programs-section" id="programs">
+    <section class="py-24 px-[8%] bg-gray-50" id="programs">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-teal-900 mb-4">Programs & Growth Paths</h2>
 
-        <div class="section-title">
-            <h2>Programs & Growth Paths</h2>
-
-            <p>
+            <p class="max-w-2xl mx-auto text-gray-600">
                 Eden Mentorship Academy creates transformational experiences through
                 mentorship programs, outreaches, leadership sessions, and intentional
                 community development.
             </p>
         </div>
 
-        <div class="program-grid">
-
-            <div class="program-card">
-                <h3>Leadership Track</h3>
-                <p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="program-card bg-white p-9 rounded-3xl border-t-4 border-yellow-500 shadow-lg transition-hover">
+                <h3 class="text-xl font-semibold text-teal-900 mb-4">Leadership Track</h3>
+                <p class="text-gray-700">
                     Equipping young people with confidence, discipline, and leadership values.
                 </p>
             </div>
 
-            <div class="program-card">
-                <h3>Spiritual Growth Community</h3>
-                <p>
+            <div class="program-card bg-white p-9 rounded-3xl border-t-4 border-yellow-500 shadow-lg transition-hover">
+                <h3 class="text-xl font-semibold text-teal-900 mb-4">Spiritual Growth Community</h3>
+                <p class="text-gray-700">
                     Bible teachings, mentorship sessions, accountability, and prayer meetings.
                 </p>
             </div>
 
-            <div class="program-card">
-                <h3>Creative Development</h3>
-                <p>
+            <div class="program-card bg-white p-9 rounded-3xl border-t-4 border-yellow-500 shadow-lg transition-hover">
+                <h3 class="text-xl font-semibold text-teal-900 mb-4">Creative Development</h3>
+                <p class="text-gray-700">
                     Helping members explore creativity, innovation, and purpose-driven talents.
                 </p>
             </div>
 
-            <div class="program-card">
-                <h3>Outreach Programs</h3>
-                <p>
+            <div class="program-card bg-white p-9 rounded-3xl border-t-4 border-yellow-500 shadow-lg transition-hover">
+                <h3 class="text-xl font-semibold text-teal-900 mb-4">Outreach Programs</h3>
+                <p class="text-gray-700">
                     Community outreaches and impactful programs from previous years and upcoming projects.
                 </p>
             </div>
-
         </div>
-
     </section>
 
     <!-- TESTIMONIALS -->
-    <section class="testimonials-section" id="testimonials">
-
-        <div class="section-title">
-            <h2>What Members Are Saying</h2>
+    <section class="py-24 px-[8%]" id="testimonials">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-teal-900 mb-4">What Members Are Saying</h2>
         </div>
 
-        <div class="testimonial-grid">
-
-            <div class="testimonial-card">
-                <p>
-                    “From the moment I joined, I knew I was in a place where I could grow, learn, and thrive. This
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="testimonial-card bg-white p-9 rounded-3xl shadow-lg">
+                <p class="text-gray-700 mb-5">
+                    "From the moment I joined, I knew I was in a place where I could grow, learn, and thrive. This
                     experience has been a
                     life-changer, and I'm thankful for the profound impact it's had on my life. Through Eden, I've
                     gained a new perspective
@@ -202,34 +507,35 @@
                     forward to continuing
                     this journey of growth, learning, and transformation. Thank you again for the opportunity to be part
                     of this
-                    life-changing experience.”
+                    life-changing experience."
                 </p>
 
-                <h4>- Grace Patrick</h4>
+                <h4 class="font-semibold text-teal-900">- Grace Patrick</h4>
             </div>
 
-            <div class="testimonial-card">
-                <p>
-                    “Eden mentorship 3.0 has contributed to my spiritual growth, Journey with God and Journey of
+            <div class="testimonial-card bg-white p-9 rounded-3xl shadow-lg">
+                <p class="text-gray-700 mb-5">
+                    "Eden mentorship 3.0 has contributed to my spiritual growth, Journey with God and Journey of
                     purpose. Eden mentorship 3.0
                     drilled me spirituallly and made me disciplined and accountable. Our 30 days fasting and reading of
                     bible, books and
                     prayer really blessed and changed my life. That period was when I knew my real identity in Christ
                     and found my purpose.
-                    I really thank God for Eden mentorship and our great coach in my journey with God.”
+                    I really thank God for Eden mentorship and our great coach in my journey with God."
                 </p>
 
-                <h4>Olujide Elizabeth</h4>
+                <h4 class="font-semibold text-teal-900">Olujide Elizabeth</h4>
             </div>
 
-            <div class="testimonial-card">
-                <p>
-                    “My name is Ashim Stephanie Olije, and I'm deeply grateful to God for how far He has brought me.
+            <div class="testimonial-card bg-white p-9 rounded-3xl shadow-lg">
+                <p class="text-gray-700 mb-5">
+                    "My name is Ashim Stephanie Olije, and I'm deeply grateful to God for how far He has brought me.
                     Though I've been busy
                     and unable to attend recent sessions, my time at Eden Mentorship Academy was truly life-changing.
                     It was there I learned the true value of studying God's Word and built a strong spiritual foundation
                     that has kept me
-                    grounded, even after entering school. The lessons I gained helped me resist distractions and stay
+                    grounded, even after gaining admission into the university. The lessons I gained helped me resist
+                    distractions and stay
                     committed to my faith,
                     even when no one was watching.
                     Through challenges and growth, I've seen God's goodness in my life and in those around me. I'm
@@ -237,160 +543,359 @@
                     Coach Emmanuel for his consistent support, guidance, and care.
                     Eden Mentorship Academy didn't just inspire me — it transformed me. The growth I've experienced is
                     genuine, lasting, and
-                    deeply rooted in God's Word. I give all the glory to God.”
+                    deeply rooted in God's Word. I give all the glory to God."
                 </p>
 
-                <h4>Ashim Stephanie Olije</h4>
+                <h4 class="font-semibold text-teal-900">Ashim Stephanie Olije</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE VISIONARY TEENAGER BOOK SECTION -->
+    <section class="py-24 px-[8%] bg-gradient-to-r from-teal-50 to-yellow-50">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+            <!-- Book Content -->
+            <div class="book-content order-2 lg:order-1">
+                <div class="inline-block mb-4 px-4 py-2 bg-yellow-100 text-teal-900 font-semibold rounded-full text-sm">
+                    <i class="fa-solid fa-book mr-2"></i> Author's Book
+                </div>
+
+                <h2 class="text-4xl md:text-5xl font-bold text-teal-900 mb-6 leading-tight">
+                    The Visionary Teenager
+                </h2>
+
+                <p class="text-lg text-gray-700 mb-6 leading-relaxed font-semibold">
+                    Not every teenager is meant to be average.
+                </p>
+
+                <div class="space-y-4 mb-8">
+                    <p class="text-gray-700 leading-relaxed">
+                        Some are called to lead, to influence, and to shape the future.
+                    </p>
+
+                    <p class="text-gray-700 leading-relaxed">
+                        If you've ever felt like there is more to your life…
+                    </p>
+
+                    <p class="text-gray-700 leading-relaxed">
+                        If you refuse to settle for confusion, pressure, and mediocrity…
+                    </p>
+
+                    <p class="text-gray-700 leading-relaxed">
+                        Then this book is for you.
+                    </p>
+                </div>
+
+                <p class="text-gray-800 font-semibold mb-6 text-lg">
+                    <i class="fa-solid fa-fire text-yellow-500 mr-2"></i>
+                    THE VISIONARY TEENAGER is not just a book — it's a guide to discovering your purpose and living
+                    intentionally.
+                </p>
+
+                <p class="text-2xl font-bold text-teal-900 mb-8">
+                    <i class="fa-solid fa-star text-yellow-500 mr-2"></i>
+                    Your future doesn't start later. It starts now.
+                </p>
+
+                <div class="space-y-4 mb-8">
+                    <a href="https://selar.com/thevisionaryteenager" target="_blank"
+                        class="block w-full md:w-auto gradient-eden text-white px-8 py-4 rounded-full font-semibold text-center transition-hover hover:translate-y-[-3px] inline-block">
+                        <i class="fa-solid fa-shopping-cart mr-2"></i>Get Your Copy Now
+                    </a>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-yellow-500">
+                    <p class="text-gray-700 mb-3 font-semibold">
+                        <i class="fa-solid fa-phone text-teal-900 mr-2"></i>Need more information?
+                    </p>
+                    <p class="text-2xl font-bold text-teal-900">
+                        +234 913 127 4099
+                    </p>
+                </div>
             </div>
 
+            <!-- Book Image -->
+            <div class="book-image-container order-1 lg:order-2 flex justify-center">
+                <img src="./images/visionary-teenager-book.jpg" alt="The Visionary Teenager Book Cover"
+                    class="w-100  rounded-3xl shadow-2xl">
+            </div>
         </div>
-
     </section>
 
     <!-- RESOURCE HUB -->
-    <section class="resource-section">
+    <section class="py-24 px-[8%] gradient-eden text-white text-center">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-4xl font-bold mb-5">Resource Hub</h2>
 
-        <div class="resource-content">
-            <h2>Resource Hub</h2>
-
-            <p>
+            <p class="text-lg mb-8">
                 Access books, PDFs, mentorship notes, recorded sessions,
                 teachings, and study materials through our Telegram resource community.
             </p>
 
-            <a href="#" class="btn primary-btn">
+            <a href="https://t.me/+mguvDpmrM4g0OTY0"
+                class="px-7 py-3 rounded-full font-semibold bg-white text-teal-900 transition-hover hover:translate-y-[-3px] inline-block">
                 Join Telegram Resource Hub
             </a>
         </div>
-
     </section>
 
     <!-- COMMUNITY -->
-    <section class="community-section" id="community">
+    <section class="py-24 px-[8%]" id="community">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-teal-900 mb-4">Become Part of The Community</h2>
 
-        <div class="section-title">
-            <h2>Become Part of The Community</h2>
-
-            <p>
+            <p class="max-w-2xl mx-auto text-gray-600">
                 Join a transformational community focused on growth, mentorship,
                 leadership, and purpose discovery.
             </p>
         </div>
 
-        <div class="community-buttons">
-
-            <a href="#" class="btn primary-btn">
-                Join WhatsApp Community
+        <div class="flex justify-center flex-wrap gap-5">
+            <a href="javascript:void(0)" onclick="openWhatsAppModal()"
+                class="px-7 py-3 rounded-full font-semibold gradient-eden text-white transition-hover hover:translate-y-[-3px] inline-block">
+                <i class="fa-brands fa-whatsapp mr-2"></i>Join WhatsApp Community
             </a>
-
-            <a href="#" class="btn" id="register_button">
-                Register for Eden Mentorship Academy
-            </a>
-
         </div>
-
     </section>
 
     <!-- FOUNDER SECTION -->
-    <!-- FOUNDER SECTION -->
-    <section class="founder-section" id="founder">
-
-        <div class="founder-container">
-
+    <section class="py-24 px-[8%]" id="founder">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div class="founder-content">
-                <h2>Meet The Founder</h2>
+                <h2 class="text-4xl font-bold text-teal-900 mb-6">Meet The Founder</h2>
 
-                <p>
+                <p class="text-gray-700 mb-6 leading-relaxed">
                     Feku Eritei Emmanuel is a visionary leader, communication expert, author, and youth mentor who
                     focuses on raising
-                    purpose-driven young leaders. As Team Lead of Eden Mentorship Academy, he runs a
+                    purpose-driven young leaders. As Team Lead of Eden Mentorship Academy, he runs Eden
                     mentorship platform
                     dedicated to leadership development, identity discovery, and personal growth for teenagers, helping
                     them live with
                     clarity, vision, and impact.
-
                 </p>
-                <br>
-                <p>
+
+                <p class="text-gray-700 mb-8 leading-relaxed">
                     He has extensive experience in public speaking coaching, leadership training, podcast hosting, and
                     humanitarian
                     outreach, through which he has impacted hundreds of young people via programs, workshops, and
                     digital content. He is
-                    also the author of <span style="font-style:italic; font-weight: bold;">The Visionary
-                        Teenager</span>, and actively
+                    also the author of <span class="italic font-bold">The Visionary Teenager</span>, and actively
                     participates in ministry, evangelism, and
                     community
                     development initiatives across Nigeria, reinforcing his commitment to youth empowerment and
                     transformational leadership.
-
                 </p>
 
                 <div class="contact-info">
-                    <p>Email: eriteifeku@gmail.com</p>
-                    <p>Phone: +234 913 127 4099</p>
+                    <p class="text-gray-700 mb-2">Email: edenmentorshipacademy@gmail.com</p>
+                    <p class="text-gray-700">Phone: +234 913 127 4099</p>
                 </div>
             </div>
 
             <div class="founder-image">
-                <img src="images/emma.jpg" alt="Founder">
+                <img src="images/emma.jpg" alt="Founder" class="w-full rounded-3xl">
             </div>
-
         </div>
-
     </section>
 
     <!-- PARTNERSHIP SECTION -->
-    <section class="partnership-section">
+    <section class="py-24 px-[8%] gradient-eden-dark text-white text-center">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-4xl font-bold mb-5">Partner With Eden Mentorship Academy</h2>
 
-        <div class="partnership-content">
-            <h2>Partner With Eden Mentorship Academy</h2>
-
-            <p>
+            <p class="text-lg mb-8 leading-relaxed">
                 We welcome individuals, organizations, ministries, schools, and
                 businesses who share our passion for raising purpose-driven young
                 leaders. Partner with us through mentorship, sponsorship,
                 collaboration, volunteering, or resource support.
             </p>
 
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSd827sdOvnhJraR62TuQAp3TkXnbuMeMNAqsUdFTz5kc3elYA/viewform" target="_blank" class="btn primary-btn">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSd827sdOvnhJraR62TuQAp3TkXnbuMeMNAqsUdFTz5kc3elYA/viewform"
+                target="_blank"
+                class="px-7 py-3 rounded-full font-semibold gradient-eden text-white transition-hover hover:translate-y-[-3px] inline-block">
                 Complete Partnership Agreement Form
             </a>
         </div>
-
     </section>
 
     <!-- FOOTER -->
-    <footer class="footer">
+    <footer class="bg-teal-950 text-white text-center py-16 px-[8%]">
+        <h3 class="text-2xl font-bold mb-4">Eden Mentorship Academy</h3>
 
-        <h3>Eden Mentorship Academy</h3>
-
-        <p>
+        <p class="mb-6 text-gray-300">
             Raising leaders, building purpose, and creating impact through mentorship and community.
         </p>
 
-        <div class="social-icons">
-
-            <a href="#">
-                <i class="fa-brands fa-whatsapp"></i>
+        <div class="social-icons flex justify-center gap-5 mb-8">
+            <a href="https://wa.me/2349131274099"
+                class="w-12 h-12 rounded-full bg-teal-900 text-white flex items-center justify-center transition-hover">
+                <i class="fa-brands fa-whatsapp text-lg"></i>
             </a>
 
-            <a href="#">
-                <i class="fa-brands fa-facebook-f"></i>
+            <a href="https://web.facebook.com/eric.master.3762"
+                class="w-12 h-12 rounded-full bg-teal-900 text-white flex items-center justify-center transition-hover">
+                <i class="fa-brands fa-facebook-f text-lg"></i>
             </a>
 
-            <a href="#">
-                <i class="fa-brands fa-telegram"></i>
+            <a href="https://t.me/+mguvDpmrM4g0OTY0"
+                class="w-12 h-12 rounded-full bg-teal-900 text-white flex items-center justify-center transition-hover">
+                <i class="fa-brands fa-telegram text-lg"></i>
             </a>
-
         </div>
 
-        <p class="copyright">
+        <p class="text-gray-400">
             © 2026 Eden Mentorship Academy. All Rights Reserved.
         </p>
-
     </footer>
 
-    <script src="script.js"></script>
+    <!-- IMAGE MODAL -->
+    <div id="imageModal" class="modal" onclick="if(event.target === this) closeModal()">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <img id="modalImage" src="" alt="Full view">
+        </div>
+    </div>
+
+    <!-- WHATSAPP MODAL -->
+    <div id="whatsappModal" class="whatsapp-modal" onclick="if(event.target === this) closeWhatsAppModal()">
+        <div class="whatsapp-modal-content">
+            <span class="close-whatsapp" onclick="closeWhatsAppModal()">&times;</span>
+
+            <h3>
+                <i class="fa-brands fa-whatsapp text-green-500 mr-2"></i>Join Eden on WhatsApp
+            </h3>
+
+            <p>Connect with us directly. Tell us your name and we'll add you to our community!</p>
+
+            <div class="whatsapp-form-group">
+                <label for="userName">Your Full Name *</label>
+                <input type="text" id="userName" placeholder="Enter your full name" onkeyup="updatePreview()" required>
+            </div>
+
+            <div class="whatsapp-message-preview">
+                <p id="messagePreview">Good day Coach Emmanuel
+
+                    My name is [Your name will appear here]
+
+                    And I'd love to be part of the Eden Mentorship Academy</p>
+            </div>
+
+            <div class="whatsapp-modal-buttons">
+                <button class="whatsapp-send-btn" onclick="sendWhatsAppMessage()">
+                    <i class="fa-brands fa-whatsapp mr-2"></i>Send on WhatsApp
+                </button>
+                <button class="whatsapp-cancel-btn" onclick="closeWhatsAppModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Modals -->
+    <script>
+        // IMAGE MODAL FUNCTIONS
+        function openModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = src;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // WHATSAPP MODAL FUNCTIONS
+        function openWhatsAppModal() {
+            const modal = document.getElementById('whatsappModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('userName').focus();
+        }
+
+        function closeWhatsAppModal() {
+            const modal = document.getElementById('whatsappModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.getElementById('userName').value = '';
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const nameInput = document.getElementById('userName');
+            const preview = document.getElementById('messagePreview');
+            const name = nameInput.value || '[Your name will appear here]';
+
+            preview.textContent = `Good day Coach Emmanuel
+
+My name is ${name}
+
+And I'd love to be part of the Eden Mentorship Academy`;
+        }
+
+        function sendWhatsAppMessage() {
+            const nameInput = document.getElementById('userName');
+            const name = nameInput.value.trim();
+
+            // Validate name
+            if (name === '') {
+                alert('Please enter your name');
+                nameInput.focus();
+                return;
+            }
+
+            // Coach Emmanuel's WhatsApp number (with country code)
+            const phoneNumber = '2349131274099'; // +234 913 127 4099
+
+            // Create the message
+            const message = `Good day Coach Emmanuel
+
+My name is ${name}
+
+And I'd love to be part of the Eden Mentorship Academy`;
+
+            // Encode the message for URL
+            const encodedMessage = encodeURIComponent(message);
+
+            // Create WhatsApp link
+            const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+            // Open WhatsApp
+            window.open(whatsappLink, '_blank');
+
+            // Close modal
+            closeWhatsAppModal();
+        }
+
+        // Allow sending with Enter key
+        document.addEventListener('DOMContentLoaded', function () {
+            const userNameInput = document.getElementById('userName');
+            if (userNameInput) {
+                userNameInput.addEventListener('keypress', function (event) {
+                    if (event.key === 'Enter') {
+                        sendWhatsAppMessage();
+                    }
+                });
+            }
+        });
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                const imageModal = document.getElementById('imageModal');
+                const whatsappModal = document.getElementById('whatsappModal');
+
+                if (imageModal.classList.contains('active')) {
+                    closeModal();
+                }
+                if (whatsappModal.classList.contains('active')) {
+                    closeWhatsAppModal();
+                }
+            }
+        });
+    </script>
+
 </body>
 
 </html>
